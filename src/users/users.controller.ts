@@ -6,6 +6,8 @@ import {
   Delete,
   Body,
   Param,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './create-user.dto';
@@ -25,11 +27,13 @@ export class UsersController {
   }
 
   @Post()
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   create(@Body() user: CreateUserDto) {
     return this.usersService.create(user);
   }
 
   @Put(':id')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
   update(@Param('id') id: string, @Body() user: CreateUserDto) {
     return this.usersService.update(Number(id), user);
   }
